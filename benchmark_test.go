@@ -5,9 +5,11 @@ import (
 	"log"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/hnakamur/ltsvlog"
 	ltsv "github.com/hnakamur/zap-ltsv"
+	"github.com/rs/zerolog"
 	"go.uber.org/zap"
 )
 
@@ -79,5 +81,56 @@ func BenchmarkZapLTSVDevelopmentLog(b *testing.B) {
 	}
 	for i := 0; i < b.N; i++ {
 		logger.Info("sample log message", zap.String("key1", "value1"), zap.String("key2", "value2"))
+	}
+}
+
+func BenchmarkZerologTimestamp(b *testing.B) {
+	tmpfile, err := ioutil.TempFile("", "benchmark")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	zerolog.TimeFieldFormat = time.RFC3339Nano
+	logger := zerolog.New(tmpfile).With().Time("time", time.Now()).Logger()
+	for i := 0; i < b.N; i++ {
+		logger.Info().
+			Str("key1", "value1").
+			Str("key2", "value2").
+			Msg("sample log message")
+	}
+}
+
+func BenchmarkZerologRFC3339Time(b *testing.B) {
+	tmpfile, err := ioutil.TempFile("", "benchmark")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	zerolog.TimeFieldFormat = time.RFC3339
+	logger := zerolog.New(tmpfile).With().Time("time", time.Now()).Logger()
+	for i := 0; i < b.N; i++ {
+		logger.Info().
+			Str("key1", "value1").
+			Str("key2", "value2").
+			Msg("sample log message")
+	}
+}
+
+func BenchmarkZerologRFC3339NanoTime(b *testing.B) {
+	tmpfile, err := ioutil.TempFile("", "benchmark")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	zerolog.TimeFieldFormat = time.RFC3339Nano
+	logger := zerolog.New(tmpfile).With().Time("time", time.Now()).Logger()
+	for i := 0; i < b.N; i++ {
+		logger.Info().
+			Str("key1", "value1").
+			Str("key2", "value2").
+			Msg("sample log message")
 	}
 }

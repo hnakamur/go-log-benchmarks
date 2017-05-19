@@ -1,4 +1,4 @@
-memo = "17fe2fb7570c216fa5a7298c076c3987a3d8fbf7c3a2197ee5a69be151b6751d"
+memo = "f0d869e81d225e4375720e56de117aab10459c25460e26ac8ddcc6f78180f08c"
 
 [[projects]]
   name = "github.com/hnakamur/ltsvlog"
@@ -10,6 +10,12 @@ memo = "17fe2fb7570c216fa5a7298c076c3987a3d8fbf7c3a2197ee5a69be151b6751d"
   name = "github.com/hnakamur/zap-ltsv"
   packages = ["."]
   revision = "55642a0d4f654fb1d019a34b43e6a7b428ac2f0c"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/rs/zerolog"
+  packages = ["."]
+  revision = "77726764eda3d86df495c2759fb8b38b204ec61d"
 
 [[projects]]
   branch = "master"
