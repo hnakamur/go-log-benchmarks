@@ -9,7 +9,7 @@ import (
 	"github.com/hnakamur/ltsvlog"
 )
 
-func BenchmarkErrLVWithStackAndTime(b *testing.B) {
+func BenchmarkErrWithStackAndTime(b *testing.B) {
 	tmpfile, err := ioutil.TempFile("", "benchmark")
 	if err != nil {
 		b.Fatal(err)
@@ -27,7 +27,7 @@ func BenchmarkErrLVWithStackAndTime(b *testing.B) {
 	}
 }
 
-func BenchmarkErrLVWithStack(b *testing.B) {
+func BenchmarkErrWithStack(b *testing.B) {
 	tmpfile, err := ioutil.TempFile("", "benchmark")
 	if err != nil {
 		b.Fatal(err)
@@ -45,7 +45,7 @@ func BenchmarkErrLVWithStack(b *testing.B) {
 	}
 }
 
-func BenchmarkErrLVWithTime(b *testing.B) {
+func BenchmarkErrWithTime(b *testing.B) {
 	tmpfile, err := ioutil.TempFile("", "benchmark")
 	if err != nil {
 		b.Fatal(err)
@@ -54,6 +54,24 @@ func BenchmarkErrLVWithTime(b *testing.B) {
 
 	run := func() error {
 		return ltsvlog.Err(errors.New("some error")).Time().LV("key1", "value1")
+	}
+
+	logger := ltsvlog.NewLTSVLogger(tmpfile, false)
+	for i := 0; i < b.N; i++ {
+		err = run()
+		logger.Err(err)
+	}
+}
+
+func BenchmarkErr(b *testing.B) {
+	tmpfile, err := ioutil.TempFile("", "benchmark")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	run := func() error {
+		return ltsvlog.Err(errors.New("some error")).LV("key1", "value1")
 	}
 
 	logger := ltsvlog.NewLTSVLogger(tmpfile, false)
