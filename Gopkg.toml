@@ -52,11 +52,16 @@
 
 
 [[dependencies]]
+  branch = "master"
   name = "github.com/hnakamur/ltsvlog"
 
 [[dependencies]]
   branch = "master"
   name = "github.com/hnakamur/zap-ltsv"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/rs/zerolog"
 
 [[dependencies]]
   name = "go.uber.org/zap"

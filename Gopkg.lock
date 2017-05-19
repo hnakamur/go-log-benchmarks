@@ -1,9 +1,10 @@
-memo = "f0d869e81d225e4375720e56de117aab10459c25460e26ac8ddcc6f78180f08c"
+memo = "6dd57a8a71bcc27070acf844d2bc68a72a80b24e5444e6c10afd7143e782da69"
 
 [[projects]]
+  branch = "master"
   name = "github.com/hnakamur/ltsvlog"
   packages = ["."]
-  revision = "8eb437ad877f997edd904c7acebd39f1c0ca3d93"
+  revision = "c5ae18102fa0294f3db3accb87e4ac98aebe6ba7"
 
 [[projects]]
   branch = "master"
