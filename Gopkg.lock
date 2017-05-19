@@ -1,0 +1,24 @@
+memo = "17fe2fb7570c216fa5a7298c076c3987a3d8fbf7c3a2197ee5a69be151b6751d"
+
+[[projects]]
+  name = "github.com/hnakamur/ltsvlog"
+  packages = ["."]
+  revision = "8eb437ad877f997edd904c7acebd39f1c0ca3d93"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hnakamur/zap-ltsv"
+  packages = ["."]
+  revision = "55642a0d4f654fb1d019a34b43e6a7b428ac2f0c"
+
+[[projects]]
+  branch = "master"
+  name = "go.uber.org/atomic"
+  packages = ["."]
+  revision = "1d7f075bbe2659dfefbcb41e135048f29da50547"
+
+[[projects]]
+  name = "go.uber.org/zap"
+  packages = [".","buffer","internal/bufferpool","internal/color","internal/exit","internal/multierror","zapcore"]
+  revision = "fab453050a7a08c35f31fc5fff6f2dbd962285ab"
+  version = "v1.4.0"
