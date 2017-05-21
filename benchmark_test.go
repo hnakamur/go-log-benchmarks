@@ -22,7 +22,7 @@ func BenchmarkLTSVLog(b *testing.B) {
 
 	logger := ltsvlog.NewLTSVLogger(tmpfile, false)
 	for i := 0; i < b.N; i++ {
-		logger.Info(ltsvlog.LV{"msg", "sample log message"}, ltsvlog.LV{"key1", "value1"}, ltsvlog.LV{"key2", "value2"})
+		logger.Info().String("msg", "hello").String("key1", "value1").String("key2", "value2").Log()
 	}
 }
 

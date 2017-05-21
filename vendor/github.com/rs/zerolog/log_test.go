@@ -150,6 +150,14 @@ func TestFieldsDisabled(t *testing.T) {
 	}
 }
 
+func TestMsgf(t *testing.T) {
+	out := &bytes.Buffer{}
+	New(out).Log().Msgf("one %s %.1f %d %v", "two", 3.4, 5, errors.New("six"))
+	if got, want := out.String(), `{"message":"one two 3.4 5 six"}`+"\n"; got != want {
+		t.Errorf("invalid log output: got %q, want %q", got, want)
+	}
+}
+
 func TestWithAndFieldsCombined(t *testing.T) {
 	out := &bytes.Buffer{}
 	log := New(out).With().Str("f1", "val").Str("f2", "val").Logger()
@@ -233,5 +241,37 @@ func TestLevelWriter(t *testing.T) {
 	}
 	if got := lw.ops; !reflect.DeepEqual(got, want) {
 		t.Errorf("invalid ops:\ngot:\n%v\nwant:\n%v", got, want)
+	}
+}
+
+func TestContextTimestamp(t *testing.T) {
+	TimestampFunc = func() time.Time {
+		return time.Date(2001, time.February, 3, 4, 5, 6, 7, time.UTC)
+	}
+	defer func() {
+		TimestampFunc = time.Now
+	}()
+	out := &bytes.Buffer{}
+	log := New(out).With().Timestamp().Str("foo", "bar").Logger()
+	log.Log().Msg("hello world")
+
+	if got, want := out.String(), `{"time":"2001-02-03T04:05:06Z","foo":"bar","message":"hello world"}`+"\n"; got != want {
+		t.Errorf("invalid log output: got %q, want %q", got, want)
+	}
+}
+
+func TestEventTimestamp(t *testing.T) {
+	TimestampFunc = func() time.Time {
+		return time.Date(2001, time.February, 3, 4, 5, 6, 7, time.UTC)
+	}
+	defer func() {
+		TimestampFunc = time.Now
+	}()
+	out := &bytes.Buffer{}
+	log := New(out).With().Str("foo", "bar").Logger()
+	log.Log().Timestamp().Msg("hello world")
+
+	if got, want := out.String(), `{"foo":"bar","time":"2001-02-03T04:05:06Z","message":"hello world"}`+"\n"; got != want {
+		t.Errorf("invalid log output: got %q, want %q", got, want)
 	}
 }
