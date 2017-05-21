@@ -2,6 +2,7 @@
 package log
 
 import (
+	"context"
 	"os"
 
 	"github.com/rs/zerolog"
@@ -28,28 +29,28 @@ func Sample(every int) zerolog.Logger {
 // Debug starts a new message with debug level.
 //
 // You must call Msg on the returned event in order to send the event.
-func Debug() zerolog.Event {
+func Debug() *zerolog.Event {
 	return Logger.Debug()
 }
 
 // Info starts a new message with info level.
 //
 // You must call Msg on the returned event in order to send the event.
-func Info() zerolog.Event {
+func Info() *zerolog.Event {
 	return Logger.Info()
 }
 
 // Warn starts a new message with warn level.
 //
 // You must call Msg on the returned event in order to send the event.
-func Warn() zerolog.Event {
+func Warn() *zerolog.Event {
 	return Logger.Warn()
 }
 
 // Error starts a new message with error level.
 //
 // You must call Msg on the returned event in order to send the event.
-func Error() zerolog.Event {
+func Error() *zerolog.Event {
 	return Logger.Error()
 }
 
@@ -57,7 +58,7 @@ func Error() zerolog.Event {
 // is called by the Msg method.
 //
 // You must call Msg on the returned event in order to send the event.
-func Fatal() zerolog.Event {
+func Fatal() *zerolog.Event {
 	return Logger.Fatal()
 }
 
@@ -65,7 +66,7 @@ func Fatal() zerolog.Event {
 // to the panic function.
 //
 // You must call Msg on the returned event in order to send the event.
-func Panic() zerolog.Event {
+func Panic() *zerolog.Event {
 	return Logger.Panic()
 }
 
@@ -73,6 +74,12 @@ func Panic() zerolog.Event {
 // zerlog.Disabled will still disable events produced by this method.
 //
 // You must call Msg on the returned event in order to send the event.
-func Log() zerolog.Event {
+func Log() *zerolog.Event {
 	return Logger.Log()
+}
+
+// Ctx returns the Logger associated with the ctx. If no logger
+// is associated, a disabled logger is returned.
+func Ctx(ctx context.Context) zerolog.Logger {
+	return zerolog.Ctx(ctx)
 }

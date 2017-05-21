@@ -20,7 +20,20 @@ var (
 	SampleFieldName = "sample"
 
 	// TimeFieldFormat defines the time format of the Time field type.
+	// If set to an empty string, the time is formatted as an UNIX timestamp
+	// as integer.
 	TimeFieldFormat = time.RFC3339
+
+	// TimestampFunc defines the function called to generate a timestamp.
+	TimestampFunc = time.Now
+
+	// DurationFieldUnit defines the unit for time.Duration type fields added
+	// using the Dur method.
+	DurationFieldUnit = time.Millisecond
+
+	// DurationFieldInteger renders Dur fields as integer instead of float if
+	// set to true.
+	DurationFieldInteger = false
 )
 
 var (

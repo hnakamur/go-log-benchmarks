@@ -3,6 +3,7 @@ package zerolog_test
 import (
 	"errors"
 	"os"
+	"time"
 
 	"github.com/rs/zerolog"
 )
@@ -111,7 +112,37 @@ func ExampleEvent_Dict() {
 		).
 		Msg("hello world")
 
-	// Output: {"foo":"bar",{"bar":"baz","n":1},"message":"hello world"}
+	// Output: {"foo":"bar","dict":{"bar":"baz","n":1},"message":"hello world"}
+}
+
+func ExampleEvent_Interface() {
+	log := zerolog.New(os.Stdout)
+
+	obj := struct {
+		Name string `json:"name"`
+	}{
+		Name: "john",
+	}
+
+	log.Log().
+		Str("foo", "bar").
+		Interface("obj", obj).
+		Msg("hello world")
+
+	// Output: {"foo":"bar","obj":{"name":"john"},"message":"hello world"}
+}
+
+func ExampleEvent_Dur() {
+	d := time.Duration(10 * time.Second)
+
+	log := zerolog.New(os.Stdout)
+
+	log.Log().
+		Str("foo", "bar").
+		Dur("dur", d).
+		Msg("hello world")
+
+	// Output: {"foo":"bar","dur":10000,"message":"hello world"}
 }
 
 func ExampleContext_Dict() {
@@ -125,4 +156,34 @@ func ExampleContext_Dict() {
 	log.Log().Msg("hello world")
 
 	// Output: {"foo":"bar","dict":{"bar":"baz","n":1},"message":"hello world"}
+}
+
+func ExampleContext_Interface() {
+	obj := struct {
+		Name string `json:"name"`
+	}{
+		Name: "john",
+	}
+
+	log := zerolog.New(os.Stdout).With().
+		Str("foo", "bar").
+		Interface("obj", obj).
+		Logger()
+
+	log.Log().Msg("hello world")
+
+	// Output: {"foo":"bar","obj":{"name":"john"},"message":"hello world"}
+}
+
+func ExampleContext_Dur() {
+	d := time.Duration(10 * time.Second)
+
+	log := zerolog.New(os.Stdout).With().
+		Str("foo", "bar").
+		Dur("dur", d).
+		Logger()
+
+	log.Log().Msg("hello world")
+
+	// Output: {"foo":"bar","dur":10000,"message":"hello world"}
 }
