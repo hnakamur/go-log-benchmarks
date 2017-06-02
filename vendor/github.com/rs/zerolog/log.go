@@ -154,6 +154,11 @@ func New(w io.Writer) Logger {
 	return Logger{w: lw}
 }
 
+// Nop returns a disabled logger for which all operation are no-op.
+func Nop() Logger {
+	return New(nil).Level(Disabled)
+}
+
 // With creates a child logger with the field added to its context.
 func (l Logger) With() Context {
 	context := l.context
@@ -247,6 +252,18 @@ func (l Logger) Panic() *Event {
 // You must call Msg on the returned event in order to send the event.
 func (l Logger) Log() *Event {
 	return l.newEvent(ErrorLevel, false, nil)
+}
+
+// Write implements the io.Writer interface. This is useful to set as a writer
+// for the standard library log.
+func (l Logger) Write(p []byte) (n int, err error) {
+	n = len(p)
+	if n > 0 && p[n-1] == '\n' {
+		// Trim CR added by stdlog.
+		p = p[0 : n-1]
+	}
+	err = l.Log().Msg(string(p))
+	return
 }
 
 func (l Logger) newEvent(level Level, addLevelField bool, done func(string)) *Event {

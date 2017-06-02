@@ -1,10 +1,10 @@
 memo = "f3c20965e15cc1c9a700e2f2153da9892456e85dfcb056a5a3769beaa7820d41"
 
 [[projects]]
-  branch = "master"
   name = "github.com/hnakamur/ltsvlog"
   packages = ["."]
-  revision = "34eda4ddde463192c0a689bf23b9fa1ebb738671"
+  revision = "8b7c42512a7545eb93ecee49ad2d33599ff082b6"
+  version = "v1.5.2"
 
 [[projects]]
   branch = "master"
@@ -16,7 +16,7 @@ memo = "f3c20965e15cc1c9a700e2f2153da9892456e85dfcb056a5a3769beaa7820d41"
   branch = "master"
   name = "github.com/rs/zerolog"
   packages = ["."]
-  revision = "bf4b44614c4fe42f071ba7162e4898edaef8fa1e"
+  revision = "49d553c9b85d2fded8dec99848b802c0d875cb8c"
 
 [[projects]]
   name = "go.uber.org/atomic"
