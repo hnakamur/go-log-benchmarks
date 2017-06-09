@@ -16,7 +16,7 @@ memo = "f3c20965e15cc1c9a700e2f2153da9892456e85dfcb056a5a3769beaa7820d41"
   branch = "master"
   name = "github.com/rs/zerolog"
   packages = ["."]
-  revision = "49d553c9b85d2fded8dec99848b802c0d875cb8c"
+  revision = "2e3da1d5b5ca21d19ebdf4d8ead8aa202cd7341d"
 
 [[projects]]
   name = "go.uber.org/atomic"
@@ -27,5 +27,5 @@ memo = "f3c20965e15cc1c9a700e2f2153da9892456e85dfcb056a5a3769beaa7820d41"
 [[projects]]
   name = "go.uber.org/zap"
   packages = [".","buffer","internal/bufferpool","internal/color","internal/exit","internal/multierror","zapcore"]
-  revision = "fab453050a7a08c35f31fc5fff6f2dbd962285ab"
-  version = "v1.4.0"
+  revision = "9cabc84638b70e564c3dab2766efcb1ded2aac9f"
+  version = "v1.4.1"

@@ -101,7 +101,7 @@ func (l Level) String() string {
 	case InfoLevel:
 		return "info"
 	case WarnLevel:
-		return "warning"
+		return "warn"
 	case ErrorLevel:
 		return "error"
 	case FatalLevel:
@@ -172,7 +172,7 @@ func (l Logger) With() Context {
 	return Context{l}
 }
 
-// Level crestes a child logger with the minium accepted level set to level.
+// Level creates a child logger with the minimum accepted level set to level.
 func (l Logger) Level(lvl Level) Logger {
 	return Logger{
 		w:       l.w,
@@ -251,7 +251,9 @@ func (l Logger) Panic() *Event {
 //
 // You must call Msg on the returned event in order to send the event.
 func (l Logger) Log() *Event {
-	return l.newEvent(ErrorLevel, false, nil)
+	// We use panic level with addLevelField=false to make Log passthrough all
+	// levels except Disabled.
+	return l.newEvent(PanicLevel, false, nil)
 }
 
 // Write implements the io.Writer interface. This is useful to set as a writer
@@ -262,7 +264,7 @@ func (l Logger) Write(p []byte) (n int, err error) {
 		// Trim CR added by stdlog.
 		p = p[0 : n-1]
 	}
-	err = l.Log().Msg(string(p))
+	l.Log().Msg(string(p))
 	return
 }
 
@@ -276,22 +278,22 @@ func (l Logger) newEvent(level Level, addLevelField bool, done func(string)) *Ev
 		lvl = level
 	}
 	e := newEvent(l.w, lvl, enabled)
+	e.done = done
+	if l.context != nil && len(l.context) > 0 && l.context[0] > 0 {
+		// first byte of context is ts flag
+		e.buf = appendTimestamp(e.buf)
+	}
 	if addLevelField {
 		e.Str(LevelFieldName, level.String())
 	}
 	if l.sample > 0 && SampleFieldName != "" {
 		e.Uint32(SampleFieldName, l.sample)
 	}
-	if l.context != nil && len(l.context) > 0 {
-		if l.context[0] > 0 { // ts flag
-			e.buf = appendTimestamp(e.buf)
+	if l.context != nil && len(l.context) > 1 {
+		if len(e.buf) > 1 {
+			e.buf = append(e.buf, ',')
 		}
-		if len(l.context) > 1 {
-			if len(e.buf) > 1 {
-				e.buf = append(e.buf, ',')
-			}
-			e.buf = append(e.buf, l.context[1:]...)
-		}
+		e.buf = append(e.buf, l.context[1:]...)
 	}
 	return e
 }
