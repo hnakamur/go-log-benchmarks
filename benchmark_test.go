@@ -91,7 +91,23 @@ func BenchmarkZerologTimestamp(b *testing.B) {
 	}
 	defer os.Remove(tmpfile.Name())
 
-	zerolog.TimeFieldFormat = time.RFC3339Nano
+	logger := zerolog.New(tmpfile).With().Timestamp().Logger()
+	for i := 0; i < b.N; i++ {
+		logger.Info().
+			Str("key1", "value1").
+			Str("key2", "value2").
+			Msg("sample log message")
+	}
+}
+
+func BenchmarkZerologTimeSecondsFromEpoch(b *testing.B) {
+	tmpfile, err := ioutil.TempFile("", "benchmark")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	zerolog.TimeFieldFormat = ""
 	logger := zerolog.New(tmpfile).With().Time("time", time.Now()).Logger()
 	for i := 0; i < b.N; i++ {
 		logger.Info().
