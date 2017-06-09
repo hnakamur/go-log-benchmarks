@@ -91,6 +91,7 @@ func BenchmarkZerologTimestamp(b *testing.B) {
 	}
 	defer os.Remove(tmpfile.Name())
 
+	zerolog.TimeFieldFormat = ""
 	logger := zerolog.New(tmpfile).With().Timestamp().Logger()
 	for i := 0; i < b.N; i++ {
 		logger.Info().
