@@ -3,6 +3,7 @@ package zerolog
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"sync"
 	"time"
 )
@@ -15,7 +16,7 @@ var eventPool = &sync.Pool{
 	},
 }
 
-// Event represents a log event. It is instancied by one of the level method of
+// Event represents a log event. It is instanced by one of the level method of
 // Logger and finalized by the Msg or Msgf method.
 type Event struct {
 	buf     []byte
@@ -56,11 +57,11 @@ func (e *Event) Enabled() bool {
 
 // Msg sends the *Event with msg added as the message field if not empty.
 //
-// NOTICE: once this methid is called, the *Event should be disposed.
+// NOTICE: once this method is called, the *Event should be disposed.
 // Calling Msg twice can have unexpected result.
-func (e *Event) Msg(msg string) error {
+func (e *Event) Msg(msg string) {
 	if !e.enabled {
-		return nil
+		return
 	}
 	if msg != "" {
 		e.buf = appendString(e.buf, MessageFieldName, msg)
@@ -68,16 +69,18 @@ func (e *Event) Msg(msg string) error {
 	if e.done != nil {
 		defer e.done(msg)
 	}
-	return e.write()
+	if err := e.write(); err != nil {
+		fmt.Fprintf(os.Stderr, "zerolog: could not write event: %v", err)
+	}
 }
 
 // Msgf sends the event with formated msg added as the message field if not empty.
 //
 // NOTICE: once this methid is called, the *Event should be disposed.
 // Calling Msg twice can have unexpected result.
-func (e *Event) Msgf(format string, v ...interface{}) error {
+func (e *Event) Msgf(format string, v ...interface{}) {
 	if !e.enabled {
-		return nil
+		return
 	}
 	msg := fmt.Sprintf(format, v...)
 	if msg != "" {
@@ -86,7 +89,9 @@ func (e *Event) Msgf(format string, v ...interface{}) error {
 	if e.done != nil {
 		defer e.done(msg)
 	}
-	return e.write()
+	if err := e.write(); err != nil {
+		fmt.Fprintf(os.Stderr, "zerolog: could not write event: %v", err)
+	}
 }
 
 // Dict adds the field key with a dict to the event context.
@@ -273,12 +278,27 @@ func (e *Event) Time(key string, t time.Time) *Event {
 	return e
 }
 
-// Dur adds the fields key with duration d stored as zerolog.DurationFieldUnit.
+// Dur adds the field key with duration d stored as zerolog.DurationFieldUnit.
 // If zerolog.DurationFieldInteger is true, durations are rendered as integer
 // instead of float.
 func (e *Event) Dur(key string, d time.Duration) *Event {
 	if !e.enabled {
 		return e
+	}
+	e.buf = appendDuration(e.buf, key, d)
+	return e
+}
+
+// TimeDiff adds the field key with positive duration between time t and start.
+// If time t is not greater than start, duration will be 0.
+// Duration format follows the same principle as Dur().
+func (e *Event) TimeDiff(key string, t time.Time, start time.Time) *Event {
+	if !e.enabled {
+		return e
+	}
+	var d time.Duration
+	if t.After(start) {
+		d = t.Sub(start)
 	}
 	e.buf = appendDuration(e.buf, key, d)
 	return e
