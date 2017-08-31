@@ -53,7 +53,7 @@ func ExampleLTSVLogger_Err() {
 		if err != nil {
 			return ltsvlog.WrapErr(err, func(err error) error {
 				return fmt.Errorf("add explanation here, err=%v", err)
-			})
+			}).String("key2", "value2")
 		}
 		return nil
 
@@ -64,7 +64,19 @@ func ExampleLTSVLogger_Err() {
 	}
 
 	// Output example:
-	// time:2017-06-01T16:52:33.959914Z	level:Error	err:add explanation here, err=some error	key1:value1	stack:[main.b(0x2000, 0x38) /home/hnakamur/go/src/github.com/hnakamur/ltsvlog/example/main.go:35 +0xc8],[main.a(0xc42001a240, 0x4c6e2e) /home/hnakamur/go/src/github.com/hnakamur/ltsvlog/example/main.go:25 +0x22],[main.main() /home/hnakamur/go/src/github.com/hnakamur/ltsvlog/example/main.go:18 +0x11e]
+	// time:2017-06-10T13:40:38.344079Z	level:Error	err:add explanation here, err=some error	key1:value1	stack:main.main.func1 github.com/hnakamur/ltsvlog/example/err/main.go:12,main.main.func2 github.com/hnakamur/ltsvlog/example/err/main.go:15,main.main github.com/hnakamur/ltsvlog/example/err/main.go:24,runtime.main runtime/proc.go:194,runtime.goexit runtime/asm_amd64.s:2338	key2:value2
+	// Output:
+
+	// Actually we don't test the results.
+	// This example is added just for document purpose.
+}
+
+func ExampleEvent_String() {
+	jsonStr := "{\n\t\"foo\": \"bar\\nbaz\"\n}\n"
+	ltsvlog.Logger.Info().String("json", jsonStr).Log()
+
+	// Output example:
+	// time:2017-06-10T10:22:48.083226Z        level:Info      json:{\n\t"foo": "bar\\nbaz"\n}\n
 	// Output:
 
 	// Actually we don't test the results.

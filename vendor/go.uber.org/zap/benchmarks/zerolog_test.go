@@ -18,55 +18,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// Package multierror provides a simple way to treat a collection of errors as
-// a single error.
-package multierror
+package benchmarks
 
-import "go.uber.org/zap/internal/bufferpool"
+import (
+	"io/ioutil"
 
-// implement the standard lib's error interface on a private type so that we
-// can't forget to call Error.AsError().
-type errSlice []error
+	"github.com/rs/zerolog"
+)
 
-func (es errSlice) Error() string {
-	b := bufferpool.Get()
-	for i, err := range es {
-		if i > 0 {
-			b.AppendByte(';')
-			b.AppendByte(' ')
-		}
-		b.AppendString(err.Error())
-	}
-	ret := b.String()
-	b.Free()
-	return ret
+func newZerolog() zerolog.Logger {
+	return zerolog.New(ioutil.Discard).With().Timestamp().Logger()
 }
 
-// Error wraps a []error to implement the error interface.
-type Error struct {
-	errs errSlice
+func newDisabledZerolog() zerolog.Logger {
+	return newZerolog().Level(zerolog.Disabled)
 }
 
-// AsError converts the collection to a single error value.
-//
-// Note that failing to use AsError will almost certainly lead to bugs with
-// non-nil interfaces containing nil concrete values.
-func (e Error) AsError() error {
-	switch len(e.errs) {
-	case 0:
-		return nil
-	case 1:
-		return e.errs[0]
-	default:
-		return e.errs
-	}
+func fakeZerologFields(e *zerolog.Event) *zerolog.Event {
+	return e.
+		Int("int", _tenInts[0]).
+		Interface("ints", _tenInts).
+		Str("string", _tenStrings[0]).
+		Interface("strings", _tenStrings).
+		Time("time", _tenTimes[0]).
+		Interface("times", _tenTimes).
+		Interface("user1", _oneUser).
+		Interface("user2", _oneUser).
+		Interface("users", _tenUsers).
+		Err(errExample)
 }
 
-// Append adds an error to the collection. Adding a nil error is a no-op.
-func (e Error) Append(err error) Error {
-	if err == nil {
-		return e
-	}
-	e.errs = append(e.errs, err)
-	return e
+func fakeZerologContext(c zerolog.Context) zerolog.Context {
+	return c.
+		Int("int", _tenInts[0]).
+		Interface("ints", _tenInts).
+		Str("string", _tenStrings[0]).
+		Interface("strings", _tenStrings).
+		Time("time", _tenTimes[0]).
+		Interface("times", _tenTimes).
+		Interface("user1", _oneUser).
+		Interface("user2", _oneUser).
+		Interface("users", _tenUsers).
+		Err(errExample)
 }

@@ -91,6 +91,15 @@ func ExampleLogger_Error() {
 	// Output: {"level":"error","error":"some error","message":"error doing something"}
 }
 
+func ExampleLogger_WithLevel() {
+	log := zerolog.New(os.Stdout)
+
+	log.WithLevel(zerolog.InfoLevel).
+		Msg("hello world")
+
+	// Output: {"level":"info","message":"hello world"}
+}
+
 func ExampleLogger_Write() {
 	log := zerolog.New(os.Stdout).With().
 		Str("foo", "bar").
@@ -129,6 +138,71 @@ func ExampleEvent_Dict() {
 	// Output: {"foo":"bar","dict":{"bar":"baz","n":1},"message":"hello world"}
 }
 
+type User struct {
+	Name    string
+	Age     int
+	Created time.Time
+}
+
+func (u User) MarshalZerologObject(e *zerolog.Event) {
+	e.Str("name", u.Name).
+		Int("age", u.Age).
+		Time("created", u.Created)
+}
+
+type Users []User
+
+func (uu Users) MarshalZerologArray(a *zerolog.Array) {
+	for _, u := range uu {
+		a.Object(u)
+	}
+}
+
+func ExampleEvent_Array() {
+	log := zerolog.New(os.Stdout)
+
+	log.Log().
+		Str("foo", "bar").
+		Array("array", zerolog.Arr().
+			Str("baz").
+			Int(1),
+		).
+		Msg("hello world")
+
+	// Output: {"foo":"bar","array":["baz",1],"message":"hello world"}
+}
+
+func ExampleEvent_Array_object() {
+	log := zerolog.New(os.Stdout)
+
+	// Users implements zerolog.LogArrayMarshaler
+	u := Users{
+		User{"John", 35, time.Time{}},
+		User{"Bob", 55, time.Time{}},
+	}
+
+	log.Log().
+		Str("foo", "bar").
+		Array("users", u).
+		Msg("hello world")
+
+	// Output: {"foo":"bar","users":[{"name":"John","age":35,"created":"0001-01-01T00:00:00Z"},{"name":"Bob","age":55,"created":"0001-01-01T00:00:00Z"}],"message":"hello world"}
+}
+
+func ExampleEvent_Object() {
+	log := zerolog.New(os.Stdout)
+
+	// User implements zerolog.LogObjectMarshaler
+	u := User{"John", 35, time.Time{}}
+
+	log.Log().
+		Str("foo", "bar").
+		Object("user", u).
+		Msg("hello world")
+
+	// Output: {"foo":"bar","user":{"name":"John","age":35,"created":"0001-01-01T00:00:00Z"},"message":"hello world"}
+}
+
 func ExampleEvent_Interface() {
 	log := zerolog.New(os.Stdout)
 
@@ -159,6 +233,22 @@ func ExampleEvent_Dur() {
 	// Output: {"foo":"bar","dur":10000,"message":"hello world"}
 }
 
+func ExampleEvent_Durs() {
+	d := []time.Duration{
+		time.Duration(10 * time.Second),
+		time.Duration(20 * time.Second),
+	}
+
+	log := zerolog.New(os.Stdout)
+
+	log.Log().
+		Str("foo", "bar").
+		Durs("durs", d).
+		Msg("hello world")
+
+	// Output: {"foo":"bar","durs":[10000,20000],"message":"hello world"}
+}
+
 func ExampleContext_Dict() {
 	log := zerolog.New(os.Stdout).With().
 		Str("foo", "bar").
@@ -170,6 +260,50 @@ func ExampleContext_Dict() {
 	log.Log().Msg("hello world")
 
 	// Output: {"foo":"bar","dict":{"bar":"baz","n":1},"message":"hello world"}
+}
+
+func ExampleContext_Array() {
+	log := zerolog.New(os.Stdout).With().
+		Str("foo", "bar").
+		Array("array", zerolog.Arr().
+			Str("baz").
+			Int(1),
+		).Logger()
+
+	log.Log().Msg("hello world")
+
+	// Output: {"foo":"bar","array":["baz",1],"message":"hello world"}
+}
+
+func ExampleContext_Array_object() {
+	// Users implements zerolog.LogArrayMarshaler
+	u := Users{
+		User{"John", 35, time.Time{}},
+		User{"Bob", 55, time.Time{}},
+	}
+
+	log := zerolog.New(os.Stdout).With().
+		Str("foo", "bar").
+		Array("users", u).
+		Logger()
+
+	log.Log().Msg("hello world")
+
+	// Output: {"foo":"bar","users":[{"name":"John","age":35,"created":"0001-01-01T00:00:00Z"},{"name":"Bob","age":55,"created":"0001-01-01T00:00:00Z"}],"message":"hello world"}
+}
+
+func ExampleContext_Object() {
+	// User implements zerolog.LogObjectMarshaler
+	u := User{"John", 35, time.Time{}}
+
+	log := zerolog.New(os.Stdout).With().
+		Str("foo", "bar").
+		Object("user", u).
+		Logger()
+
+	log.Log().Msg("hello world")
+
+	// Output: {"foo":"bar","user":{"name":"John","age":35,"created":"0001-01-01T00:00:00Z"},"message":"hello world"}
 }
 
 func ExampleContext_Interface() {
@@ -200,4 +334,20 @@ func ExampleContext_Dur() {
 	log.Log().Msg("hello world")
 
 	// Output: {"foo":"bar","dur":10000,"message":"hello world"}
+}
+
+func ExampleContext_Durs() {
+	d := []time.Duration{
+		time.Duration(10 * time.Second),
+		time.Duration(20 * time.Second),
+	}
+
+	log := zerolog.New(os.Stdout).With().
+		Str("foo", "bar").
+		Durs("durs", d).
+		Logger()
+
+	log.Log().Msg("hello world")
+
+	// Output: {"foo":"bar","durs":[10000,20000],"message":"hello world"}
 }

@@ -18,7 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package observer
+// Package observer provides a zapcore.Core that keeps an in-memory,
+// encoding-agnostic repesentation of log entries. It's useful for
+// applications that want to unit test their log output without tying their
+// tests to a particular output encoding.
+package observer // import "go.uber.org/zap/zaptest/observer"
 
 import (
 	"strings"
@@ -27,13 +31,6 @@ import (
 
 	"go.uber.org/zap/zapcore"
 )
-
-// An LoggedEntry is an encoding-agnostic representation of a log message.
-// Field availability is context dependant.
-type LoggedEntry struct {
-	zapcore.Entry
-	Context []zapcore.Field
-}
 
 // ObservedLogs is a concurrency-safe, ordered collection of observed logs.
 type ObservedLogs struct {

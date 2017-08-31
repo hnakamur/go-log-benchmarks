@@ -1,3 +1,3 @@
-cpu.prof
 go-log-benchmarks.test
-bench.log
+*.prof
+*.log

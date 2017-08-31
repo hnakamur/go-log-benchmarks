@@ -8,16 +8,20 @@ Zerolog's API is designed to provide both a great developer experience and stunn
 
 The uber's [zap](https://godoc.org/go.uber.org/zap) library pioneered this approach. Zerolog is taking this concept to the next level with simpler to use API and even better performance.
 
-To keep the code base and the API simple, zerolog focuses on JSON logging only. As [suggested on reddit](https://www.reddit.com/r/golang/comments/6c9k7n/zerolog_is_now_faster_than_zap/), you may use tools like [humanlog](https://github.com/aybabtme/humanlog) to pretty print JSON on the console during development.
+To keep the code base and the API simple, zerolog focuses on JSON logging only. Pretty logging on the console is made possible using the provided `zerolog.ConsoleWriter`.
 
+![](pretty.png)
 
 ## Features
 
+* Blazing fast
+* Low to zero allocation
 * Level logging
 * Sampling
 * Contextual fields
 * `context.Context` integration
 * `net/http` helpers
+* Pretty logging for development
 
 ## Usage
 
@@ -94,6 +98,18 @@ if e := log.Debug(); e.Enabled() {
 }
 
 // Output: {"level":"info","time":1494567715,"message":"routed message"}
+```
+
+### Pretty logging
+
+```go
+if isConsole {
+    log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+}
+
+log.Info().Str("foo", "bar").Msg("Hello world")
+
+// Output: 1494567715 |INFO| Hello world foo=bar
 ```
 
 ### Sub dictionary
@@ -189,6 +205,15 @@ c = c.Append(hlog.NewHandler(log))
 
 // Install some provided extra handler to set some request's context fields.
 // Thanks to those handler, all our logs will come with some pre-populated fields.
+c = c.Append(hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {
+    hlog.FromRequest(r).Info().
+        Str("method", r.Method).
+        Str("url", r.URL.String()).
+        Int("status", status).
+        Int("size", size).
+        Dur("duration", duration).
+        Msg("")
+}))
 c = c.Append(hlog.RemoteAddrHandler("ip"))
 c = c.Append(hlog.UserAgentHandler("user_agent"))
 c = c.Append(hlog.RefererHandler("referer"))
@@ -255,11 +280,11 @@ Some settings can be changed and will by applied to all loggers:
 All operations are allocation free (those numbers *include* JSON encoding):
 
 ```
-BenchmarkLogEmpty-8            50000000      19.8 ns/op     0 B/op      0 allocs/op
-BenchmarkDisabled-8           100000000       4.73 ns/op    0 B/op      0 allocs/op
-BenchmarkInfo-8                10000000      85.1 ns/op     0 B/op      0 allocs/op
-BenchmarkContextFields-8       10000000      81.9 ns/op     0 B/op      0 allocs/op
-BenchmarkLogFields-8            5000000     247 ns/op       0 B/op      0 allocs/op
+BenchmarkLogEmpty-8        100000000    19.1 ns/op	   0 B/op       0 allocs/op
+BenchmarkDisabled-8        500000000     4.07 ns/op	   0 B/op       0 allocs/op
+BenchmarkInfo-8            30000000	    42.5 ns/op	   0 B/op       0 allocs/op
+BenchmarkContextFields-8   30000000	    44.9 ns/op	   0 B/op       0 allocs/op
+BenchmarkLogFields-8       10000000	   184 ns/op	   0 B/op       0 allocs/op
 ```
 
 Using Uber's zap [comparison benchmark](https://github.com/uber-go/zap#performance):
@@ -268,7 +293,7 @@ Log a message and 10 fields:
 
 | Library | Time | Bytes Allocated | Objects Allocated |
 | :--- | :---: | :---: | :---: |
-| zerolog | 787 ns/op | 80 B/op | 6 allocs/op |
+| zerolog | 767 ns/op | 552 B/op | 6 allocs/op |
 | :zap: zap | 848 ns/op | 704 B/op | 2 allocs/op |
 | :zap: zap (sugared) | 1363 ns/op | 1610 B/op | 20 allocs/op |
 | go-kit | 3614 ns/op | 2895 B/op | 66 allocs/op |
@@ -281,7 +306,7 @@ Log a message with a logger that already has 10 fields of context:
 
 | Library | Time | Bytes Allocated | Objects Allocated |
 | :--- | :---: | :---: | :---: |
-| zerolog | 80 ns/op | 0 B/op | 0 allocs/op |
+| zerolog | 52 ns/op | 0 B/op | 0 allocs/op |
 | :zap: zap | 283 ns/op | 0 B/op | 0 allocs/op |
 | :zap: zap (sugared) | 337 ns/op | 80 B/op | 2 allocs/op |
 | lion | 2702 ns/op | 4074 B/op | 38 allocs/op |
@@ -294,7 +319,7 @@ Log a static string, without any context or `printf`-style templating:
 
 | Library | Time | Bytes Allocated | Objects Allocated |
 | :--- | :---: | :---: | :---: |
-| zerolog | 76.2 ns/op | 0 B/op | 0 allocs/op |
+| zerolog | 50 ns/op | 0 B/op | 0 allocs/op |
 | :zap: zap | 236 ns/op | 0 B/op | 0 allocs/op |
 | standard library | 453 ns/op | 80 B/op | 2 allocs/op |
 | :zap: zap (sugared) | 337 ns/op | 80 B/op | 2 allocs/op |

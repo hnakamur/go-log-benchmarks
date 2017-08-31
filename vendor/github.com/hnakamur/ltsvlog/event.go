@@ -48,7 +48,7 @@ func (e *Event) Stringer(label string, value fmt.Stringer) *Event {
 	return e
 }
 
-// Bytes appends a labeled bytes value to Event.
+// Bytes appends a labeled bytes value in hex format to Event.
 func (e *Event) Bytes(label string, value []byte) *Event {
 	if !e.enabled {
 		return e
@@ -60,6 +60,20 @@ func (e *Event) Bytes(label string, value []byte) *Event {
 	return e
 }
 
+// Fmt appends a labeled formatted string value to Event.
+func (e *Event) Fmt(label, format string, a ...interface{}) *Event {
+	if !e.enabled {
+		return e
+	}
+	e.buf = append(e.buf, label...)
+	e.buf = append(e.buf, ':')
+	e.buf = append(e.buf, escape(fmt.Sprintf(format, a...))...)
+	e.buf = append(e.buf, '\t')
+	return e
+}
+
+// DEPRECATED: Use Fmt instead.
+//
 // Sprintf appends a labeled formatted string value to Event.
 func (e *Event) Sprintf(label, format string, a ...interface{}) *Event {
 	if !e.enabled {
@@ -167,7 +181,7 @@ func (e *Event) Float32(label string, value float32) *Event {
 	}
 	e.buf = append(e.buf, label...)
 	e.buf = append(e.buf, ':')
-	e.buf = append(e.buf, strconv.FormatFloat(float64(value), 'g', -1, 32)...)
+	e.buf = strconv.AppendFloat(e.buf, float64(value), 'g', -1, 32)
 	e.buf = append(e.buf, '\t')
 	return e
 }
@@ -179,12 +193,12 @@ func (e *Event) Float64(label string, value float64) *Event {
 	}
 	e.buf = append(e.buf, label...)
 	e.buf = append(e.buf, ':')
-	e.buf = append(e.buf, strconv.FormatFloat(value, 'g', -1, 64)...)
+	e.buf = strconv.AppendFloat(e.buf, value, 'g', -1, 64)
 	e.buf = append(e.buf, '\t')
 	return e
 }
 
-// Time appends a labeled formatted time value to ErrorEvent.
+// Time appends a labeled formatted time value to Event.
 // The format is the same as that in the Go standard time package.
 // If the format is empty, time.RFC3339 is used.
 func (e *Event) Time(label string, value time.Time, format string) *Event {
@@ -203,7 +217,9 @@ func (e *Event) Time(label string, value time.Time, format string) *Event {
 
 // UTCTime appends a labeled UTC time value to Event.
 // The time value is converted to UTC and then printed
-// in the same format as the log time field.
+// in the same format as the log time field, that is
+// the ISO8601 format with microsecond precision and
+// the timezone "Z".
 func (e *Event) UTCTime(label string, value time.Time) *Event {
 	if !e.enabled {
 		return e
@@ -215,7 +231,20 @@ func (e *Event) UTCTime(label string, value time.Time) *Event {
 	return e
 }
 
-// Log write this event if the logger which created this event is enabled.
+// Format formats the error. With "%v" and "%s", labeled values are
+// appended to the message in LTSV format.
+// With "%q", quoted LTSV format string is returned.
+func (e *Event) Format(s fmt.State, c rune) {
+	switch c {
+	case 'v', 's':
+		s.Write(e.buf[:len(e.buf)-1])
+	case 'q':
+		fmt.Fprintf(s, "%q", e.buf[:len(e.buf)-1])
+	}
+}
+
+// Log writes this event if the logger which created this event is enabled,
+// and puts the event back to the event pool.
 func (e *Event) Log() {
 	if e.enabled && len(e.buf) > 0 {
 		e.buf[len(e.buf)-1] = '\n'

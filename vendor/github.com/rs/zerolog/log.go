@@ -71,7 +71,10 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"sync/atomic"
+
+	"github.com/rs/zerolog/internal/json"
 )
 
 // Level defines log levels.
@@ -157,6 +160,16 @@ func New(w io.Writer) Logger {
 // Nop returns a disabled logger for which all operation are no-op.
 func Nop() Logger {
 	return New(nil).Level(Disabled)
+}
+
+// Output duplicates the current logger and sets w as its output.
+func (l Logger) Output(w io.Writer) Logger {
+	l2 := New(w)
+	l2.level = l.level
+	l2.sample = l.sample
+	l2.context = make([]byte, len(l.context))
+	copy(l2.context, l.context)
+	return l2
 }
 
 // With creates a child logger with the field added to its context.
@@ -246,6 +259,30 @@ func (l Logger) Panic() *Event {
 	return l.newEvent(PanicLevel, true, func(msg string) { panic(msg) })
 }
 
+// WithLevel starts a new message with level.
+//
+// You must call Msg on the returned event in order to send the event.
+func (l Logger) WithLevel(level Level) *Event {
+	switch level {
+	case DebugLevel:
+		return l.Debug()
+	case InfoLevel:
+		return l.Info()
+	case WarnLevel:
+		return l.Warn()
+	case ErrorLevel:
+		return l.Error()
+	case FatalLevel:
+		return l.Fatal()
+	case PanicLevel:
+		return l.Panic()
+	case Disabled:
+		return disabledEvent
+	default:
+		panic("zerolog: WithLevel(): invalid level: " + strconv.Itoa(int(level)))
+	}
+}
+
 // Log starts a new message with no level. Setting GlobalLevel to Disabled
 // will still disable events produced by this method.
 //
@@ -281,7 +318,7 @@ func (l Logger) newEvent(level Level, addLevelField bool, done func(string)) *Ev
 	e.done = done
 	if l.context != nil && len(l.context) > 0 && l.context[0] > 0 {
 		// first byte of context is ts flag
-		e.buf = appendTimestamp(e.buf)
+		e.buf = json.AppendTime(json.AppendKey(e.buf, TimestampFieldName), TimestampFunc(), TimeFieldFormat)
 	}
 	if addLevelField {
 		e.Str(LevelFieldName, level.String())
