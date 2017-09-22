@@ -20,142 +20,190 @@ BenchmarkZapLTSVDevelopmentLog uses [zapcore.ISO8601TimeEncoder](https://godoc.o
 The other two prints times with microsecond precision.
 
 ```
-$ go test -count=10 -bench . -benchmem -cpuprofile=cpu.prof
+$ go test -count=10 -bench . -benchmem -cpuprofile=cpu.prof | tee 20170922.log
 goos: linux
 goarch: amd64
 pkg: github.com/hnakamur/go-log-benchmarks
-BenchmarkLTSVLog-2                       	 1000000	      2111 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2102 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2109 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2099 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2102 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2117 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2099 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	  500000	      2116 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2113 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLog-2                       	 1000000	      2098 ns/op	       0 B/op	       0 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2673 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2654 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2678 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2663 ns/op	      64 B/op	       1 allocs/op
+BenchmarkLTSVLog-2                       	  500000	      2102 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	  500000	      2097 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	 1000000	      2075 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	 1000000	      2072 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	 1000000	      2093 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	  500000	      2088 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	 1000000	      2084 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	 1000000	      2066 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	 1000000	      2075 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLog-2                       	 1000000	      2093 ns/op	       0 B/op	       0 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2666 ns/op	      64 B/op	       1 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2627 ns/op	      64 B/op	       1 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2686 ns/op	      64 B/op	       1 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2655 ns/op	      64 B/op	       1 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2666 ns/op	      64 B/op	       1 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2652 ns/op	      64 B/op	       1 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2691 ns/op	      64 B/op	       1 allocs/op
 BenchmarkStandardLog-2                   	  500000	      2658 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2702 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2636 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2661 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2656 ns/op	      64 B/op	       1 allocs/op
-BenchmarkStandardLog-2                   	  500000	      2725 ns/op	      64 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 3000000	       409 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 5000000	       396 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 5000000	       376 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 3000000	       434 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 3000000	       437 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 3000000	       399 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 3000000	       445 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 5000000	       416 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 3000000	       429 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONProductionLog-2          	 3000000	       354 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8291 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8146 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8086 ns/op	     288 B/op	       7 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2627 ns/op	      64 B/op	       1 allocs/op
+BenchmarkStandardLog-2                   	  500000	      2682 ns/op	      64 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 5000000	       388 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 5000000	       388 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 3000000	       433 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 3000000	       353 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 5000000	       402 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 3000000	       410 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 5000000	       399 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 5000000	       375 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 5000000	       378 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONProductionLog-2          	 5000000	       401 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7969 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7763 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7868 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7975 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7832 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7935 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7780 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7874 ns/op	     288 B/op	       7 allocs/op
+BenchmarkZapJSONDevelopmentLog-2         	  200000	      7921 ns/op	     288 B/op	       7 allocs/op
 BenchmarkZapJSONDevelopmentLog-2         	  200000	      8170 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8011 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8237 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8117 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8140 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      7873 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapJSONDevelopmentLog-2         	  200000	      8288 ns/op	     288 B/op	       7 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 3000000	       452 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 3000000	       418 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 3000000	       441 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 3000000	       429 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 5000000	       430 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 3000000	       394 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 5000000	       415 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 3000000	       341 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 5000000	       382 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 3000000	       389 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 5000000	       411 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 3000000	       388 ns/op	     128 B/op	       1 allocs/op
 BenchmarkZapLTSVProductionLog-2          	 5000000	       413 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 3000000	       428 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 3000000	       432 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 5000000	       428 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVProductionLog-2          	 3000000	       386 ns/op	     128 B/op	       1 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8287 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8365 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8515 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8531 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8630 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8457 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8560 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8484 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8566 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8515 ns/op	     208 B/op	       3 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2252 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2213 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	 1000000	      2277 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2209 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2209 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2213 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	 1000000	      2216 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2195 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2229 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimestamp-2              	  500000	      2199 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1952 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1938 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1961 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1938 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1928 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1934 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 3000000	       374 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVProductionLog-2          	 5000000	       404 ns/op	     128 B/op	       1 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8307 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8211 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8254 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8499 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8368 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8600 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8445 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8451 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8347 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZapLTSVDevelopmentLog-2         	  200000	      8246 ns/op	     208 B/op	       3 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2194 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2198 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2185 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2191 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2190 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2194 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2173 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2170 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	 1000000	      2202 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimestamp-2              	  500000	      2194 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1951 ns/op	       0 B/op	       0 allocs/op
 BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1935 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1941 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1965 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1934 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1932 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1936 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1932 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1938 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1964 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1955 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1935 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1937 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1937 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1946 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1932 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1949 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologTimeSecondsFromEpoch-2   	 1000000	      1935 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1981 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1966 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1976 ns/op	       0 B/op	       0 allocs/op
 BenchmarkZerologRFC3339Time-2            	 1000000	      1967 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1969 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1943 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1945 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339Time-2            	 1000000	      1939 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1950 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1977 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1972 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1948 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1952 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1968 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1947 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1963 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1961 ns/op	       0 B/op	       0 allocs/op
-BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1956 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17612 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17547 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     18052 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17639 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     18003 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     18080 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17835 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17962 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17703 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17869 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     17135 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     18247 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     16888 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     17247 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     17457 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     16977 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     17410 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     17161 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     17518 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Stack-2              	  100000	     17600 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9117 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9177 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9251 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9178 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9133 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	     12168 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9183 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9176 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9059 ns/op	   16464 B/op	       4 allocs/op
-BenchmarkLTSVLogErr/Time-2               	  200000	      9098 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1960 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1972 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1975 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1970 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1997 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339Time-2            	 1000000	      1958 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1983 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1987 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1985 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1971 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1959 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1966 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1976 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1971 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1980 ns/op	       0 B/op	       0 allocs/op
+BenchmarkZerologRFC3339NanoTime-2        	 1000000	      1981 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     18031 ns/op	   16467 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17755 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17929 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     18079 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17937 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17908 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     18074 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17798 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     18041 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/StackAndTime-2       	  100000	     17653 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17629 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17459 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     16972 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17642 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17529 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17096 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     16916 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17097 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17453 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Stack-2              	  100000	     17272 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9168 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9141 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9166 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9112 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9219 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9122 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9079 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9036 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9160 ns/op	   16464 B/op	       4 allocs/op
+BenchmarkLTSVLogErr/Time-2               	  200000	      9145 ns/op	   16464 B/op	       4 allocs/op
 PASS
-ok  	github.com/hnakamur/go-log-benchmarks	241.961s
+ok  	github.com/hnakamur/go-log-benchmarks	248.394s
+```
+
+```
+$ benchstat new.log 20170922.log | tee benchstat-20170922.log
+name                           old time/op    new time/op    delta
+LTSVLog-2                        2.11µs ± 0%    2.08µs ± 1%  -1.05%  (p=0.000 n=10+10)
+StandardLog-2                    2.66µs ± 1%    2.66µs ± 1%    ~     (p=0.858 n=9+10)
+ZapJSONProductionLog-2            410ns ±14%     393ns ±10%    ~     (p=0.148 n=10+10)
+ZapJSONDevelopmentLog-2          8.14µs ± 3%    7.91µs ± 3%  -2.79%  (p=0.002 n=10+10)
+ZapLTSVProductionLog-2            430ns ± 5%     391ns ±13%  -9.07%  (p=0.000 n=9+10)
+ZapLTSVDevelopmentLog-2          8.49µs ± 2%    8.37µs ± 3%  -1.39%  (p=0.027 n=10+10)
+ZerologTimestamp-2               2.21µs ± 2%    2.19µs ± 1%  -1.17%  (p=0.000 n=9+10)
+ZerologTimeSecondsFromEpoch-2    1.94µs ± 1%    1.94µs ± 1%    ~     (p=0.929 n=10+10)
+ZerologRFC3339Time-2             1.95µs ± 1%    1.97µs ± 1%  +1.18%  (p=0.002 n=10+9)
+ZerologRFC3339NanoTime-2         1.96µs ± 1%    1.98µs ± 1%  +0.84%  (p=0.004 n=10+10)
+LTSVLogErr/StackAndTime-2        17.8µs ± 2%    17.9µs ± 1%    ~     (p=0.353 n=10+10)
+LTSVLogErr/Stack-2               17.3µs ± 2%    17.3µs ± 2%    ~     (p=0.720 n=9+10)
+LTSVLogErr/Time-2                9.15µs ± 1%    9.13µs ± 1%    ~     (p=0.400 n=9+10)
+
+name                           old alloc/op   new alloc/op   delta
+LTSVLog-2                         0.00B          0.00B         ~     (all equal)
+StandardLog-2                     64.0B ± 0%     64.0B ± 0%    ~     (all equal)
+ZapJSONProductionLog-2             128B ± 0%      128B ± 0%    ~     (all equal)
+ZapJSONDevelopmentLog-2            288B ± 0%      288B ± 0%    ~     (all equal)
+ZapLTSVProductionLog-2             128B ± 0%      128B ± 0%    ~     (all equal)
+ZapLTSVDevelopmentLog-2            208B ± 0%      208B ± 0%    ~     (all equal)
+ZerologTimestamp-2                0.00B          0.00B         ~     (all equal)
+ZerologTimeSecondsFromEpoch-2     0.00B          0.00B         ~     (all equal)
+ZerologRFC3339Time-2              0.00B          0.00B         ~     (all equal)
+ZerologRFC3339NanoTime-2          0.00B          0.00B         ~     (all equal)
+LTSVLogErr/StackAndTime-2        16.5kB ± 0%    16.5kB ± 0%    ~     (all equal)
+LTSVLogErr/Stack-2               16.5kB ± 0%    16.5kB ± 0%    ~     (all equal)
+LTSVLogErr/Time-2                16.5kB ± 0%    16.5kB ± 0%    ~     (all equal)
+
+name                           old allocs/op  new allocs/op  delta
+LTSVLog-2                          0.00           0.00         ~     (all equal)
+StandardLog-2                      1.00 ± 0%      1.00 ± 0%    ~     (all equal)
+ZapJSONProductionLog-2             1.00 ± 0%      1.00 ± 0%    ~     (all equal)
+ZapJSONDevelopmentLog-2            7.00 ± 0%      7.00 ± 0%    ~     (all equal)
+ZapLTSVProductionLog-2             1.00 ± 0%      1.00 ± 0%    ~     (all equal)
+ZapLTSVDevelopmentLog-2            3.00 ± 0%      3.00 ± 0%    ~     (all equal)
+ZerologTimestamp-2                 0.00           0.00         ~     (all equal)
+ZerologTimeSecondsFromEpoch-2      0.00           0.00         ~     (all equal)
+ZerologRFC3339Time-2               0.00           0.00         ~     (all equal)
+ZerologRFC3339NanoTime-2           0.00           0.00         ~     (all equal)
+LTSVLogErr/StackAndTime-2          4.00 ± 0%      4.00 ± 0%    ~     (all equal)
+LTSVLogErr/Stack-2                 4.00 ± 0%      4.00 ± 0%    ~     (all equal)
+LTSVLogErr/Time-2                  4.00 ± 0%      4.00 ± 0%    ~     (all equal)
 ```
 
 ## License

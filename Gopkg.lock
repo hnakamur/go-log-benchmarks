@@ -16,8 +16,8 @@
 [[projects]]
   name = "github.com/rs/zerolog"
   packages = [".","internal/json"]
-  revision = "2ed2f2c974489526d10329dae76d0f175684109a"
-  version = "v1.2.2"
+  revision = "3ac71fc58dbd43122668a912b755b0979ba9ce1f"
+  version = "v1.3.0"
 
 [[projects]]
   name = "go.uber.org/atomic"
@@ -34,8 +34,8 @@
 [[projects]]
   name = "go.uber.org/zap"
   packages = [".","buffer","internal/bufferpool","internal/color","internal/exit","zapcore"]
-  revision = "3216c4c73e8ebbafff73c456dd27143f4a7c1f94"
-  version = "v1.6.0"
+  revision = "7a9ca91fa627ed52c7ff4fcc95cd044dc2c82a51"
+  version = "v1.7.0"
 
 [solve-meta]
   analyzer-name = "dep"
